@@ -1,0 +1,57 @@
+from tkinter import*
+from tkinter.font import Font
+import smtplib
+import random
+import server
+from tkinter import messagebox
+import time
+
+
+root=Tk(className="LoginWindow")
+
+message=0
+recever=""
+def SendOtp():
+    global recever
+    recever =  Mail.get()
+    s = smtplib.SMTP('smtp.gmail.com', 587) 
+    s.starttls() 
+    s.login("purveshbaraiya1012@gmail.com", "Purvesh1012") 
+    global message
+    message=random.randint(999,10000)
+    s.sendmail("purveshbaraiya1012@gmil.com", recever, str(message)) 
+    s.quit() 
+def getopt():
+        if receve_otp.get() == message:
+            server.UserWindow(recever)
+            sendotp['state'] = DISABLED
+        else:
+            messagebox.showerror("Error","Wrong Otp")
+
+def countdown(t): 
+	
+	while t: 
+		mins, secs = divmod(t, 60) 
+		timer = '{:02d}:{:02d}'.format(mins, secs) 
+		
+		time.sleep(1) 
+		t -= 1
+	
+            
+photo = PhotoImage(file = "pb.png")
+root.iconphoto(False,photo)
+root.configure(bg='#EFE4CF')
+root.geometry('350x250')
+Mail=StringVar()
+receve_otp=IntVar()
+f1=Font(size=15)
+f2=Font(size=10)
+mail=Label(root,text="Enter E-Mail",bg="#EFE4CF",font=f1)
+mail.place(x=120,y=30)
+Entry(root,font=f2,width='30',textvariable=Mail).place(x=70,y=60)
+sendotp=Button(root,text='Send Otp',command=SendOtp).place(x=150,y=90)
+otp=Label(root,text='Enter Otp',font=f1,bg="#EFE4CF")
+otp.place(x=130,y=120)
+Entry(root,font=f2,width=30,textvariable=receve_otp).place(x=70,y=150)
+Button(root,text="Login",command=lambda:getopt()).place(x=160,y=180)
+root.mainloop()
